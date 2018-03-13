@@ -1,0 +1,1659 @@
+
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "## TMF API Reference: TMF 678 - Customer bill Management\n\n### Release: 17.5 - January 2018\n\nThe Customer Bill Management API allows to find and retrieve one or several customer bills (also called invoices) produced for a customer. A customer bill is an electronic or paper document produced at the end of the billing process. The customer bill gathers and displays different items (applied customer billing rates generated during the rating and billing processes) to be charged to a customer. It represents a total amount due for all the products during the billing period and all significant information like dates, bill reference...\nThis API provides also operations to find and retrieve the details of applied customer billing rates presented on a customer bill. \nFinally, this API allows to request in real-time a customer bill creation and to manage this request.\n\n### Resources \n- customerBill\n- appliedCustomerBillingRate\n- customerBillOnDemand\n\n### Operations\nCustomer Bill Management API performs the following operations :\n- Retrieve a customer bill or a collection of customer bills depending on filter criteria.\n- Partial update of  a customer bill (for administration purposes).\n-  Retrieve an applied customer billing rate or a collection of applied customer billing rates depending on filter criteria.\n-  Create a customer bill on demand request, retrieve one or a collection of  customer bill on demand request(s) depending on filter criteria.\n\n- Manage notification of events on customer bill and customer bill on demand.\n\nCopyright © TM Forum 2018. All Rights Reserved.",
+    "version": "2.1",
+    "title": "API CustomerBill"
+  },
+  
+  "host": "serverRoot",
+  "basePath":	"/tmf-api/customerBillManagement/v2/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json;charset=utf-8"
+  ],
+  "produces": [
+    "application/json;charset=utf-8"
+  ],
+  "tags": [
+  
+    {
+      "name": "customerBill",
+      "description": ""
+    },
+    {
+      "name": "appliedCustomerBillingRate",
+      "description": ""
+    },
+    {
+      "name": "CustomerBillOnDemand",
+      "description": ""
+    },
+    {
+      "name": "Hub",
+      "description": ""
+    }
+  ],
+  "paths": {
+      "/customerBill": {
+      "get": {
+        "tags": [
+           "customerBill"
+        ],        
+        "operationId": "customerBillFind",
+        "summary": "List customer bills",
+        "description": "This operation list customer bill entities.\nAttribute selection is enabled for all first level attributes.\nFiltering may be available depending on the compliance level supported by an implementation.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Attribute selection",
+            
+              "type": "string"
+          },
+          {
+            "name": "billingAccount.id",
+            "required": false,
+            "in": "query",
+            "description": "Example of filter criteria that can be used to find customer bills",
+            
+              "type": "string"
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Requested index for start of resources to be provided in response requested by client",
+            
+              "type": "integer",
+              "format": "int32"
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Requested number of resources to be provided in response requested by client",
+            
+              "type": "integer",
+              "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+              "$ref": "#/definitions/CustomerBill"
+              }
+            },
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of items matching criteria",
+              "type": "integer",
+              "format": "int32"
+              },
+              "X-Result-Count": {
+                "description": "Actual number of items returned in the response body",
+              "type": "integer",
+              "format": "int32"
+              }
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+      "/customerBill/{id}": {
+      "get": {
+        "tags": [
+           "customerBill"
+        ],        
+        "operationId": "customerBillGet",
+        "summary": "Retrieve a customer bill",
+        "description": "This operation retrieves a customer bill entity.\nAttribute selection is enabled for all first level attributes.\nFiltering on sub-resources may be available depending on the compliance level supported by an implementation.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Attribute selection",
+            
+              "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerBill"
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+           "customerBill"
+        ],        
+        "operationId": "customerBillPatch",
+        "summary": "Partially update a customer bill",
+        "description": "Note: this operation is available only to ADMIN API users. The PATCH Bill operation is optional. An implementation is not required to support PATCH to be compliant with the standard.\nThis operation allows partial updates of a customer bill entity.\nOnly state attribute is patchable.\nThis operation allows partial updates of a customer bill entity. Support of json/merge (https://tools.ietf.org/html/rfc7386) is mandatory, support of json/patch (http://tools.ietf.org/html/rfc5789) is optional.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "customerBill",
+            "required": true,
+            "in": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CustomerBillUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerBill"
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+      "/appliedCustomerBillingRate": {
+      "get": {
+        "tags": [
+           "appliedCustomerBillingRate"
+        ],        
+        "operationId": "appliedCustomerBillingRateFind",
+        "summary": "List applied customer billing rates",
+        "description": "This operation list applied customer billing rate entities.\nAttribute selection is enabled for all first level attributes.\nFiltering may be available depending on the compliance level supported by an implementation.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Attribute selection",
+            
+              "type": "string"
+          },
+          {
+            "name": "bill.id",
+            "required": false,
+            "in": "query",
+            "description": "Example of a filter criteria that can be used to find applied customer billing rates",
+            
+              "type": "string"
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Requested index for start of resources to be provided in response requested by client",
+            
+              "type": "integer",
+              "format": "int32"
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Requested number of resources to be provided in response requested by client",
+            
+              "type": "integer",
+              "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+              "$ref": "#/definitions/AppliedCustomerBillingRate"
+              }
+            },
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of items matching criteria",
+              "type": "integer",
+              "format": "int32"
+              },
+              "X-Result-Count": {
+                "description": "Actual number of items returned in the response body",
+              "type": "integer",
+              "format": "int32"
+              }
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+      "/appliedCustomerBillingRate/{id}": {
+      "get": {
+        "tags": [
+           "appliedCustomerBillingRate"
+        ],        
+        "operationId": "appliedCustomerBillingRateGet",
+        "summary": "Retrieve an applied customer billing rate",
+        "description": "This operation retrieves an applied customer billing rate entity.\nAttribute selection is enabled for all first level attributes.\nFiltering on sub-resources may be available depending on the compliance level supported by an implementation.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Attribute selection",
+            
+              "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AppliedCustomerBillingRate"
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+      "/customerBillOnDemand": {
+      "post": {
+        "tags": [
+           "CustomerBillOnDemand"
+        ],        
+        "operationId": "customerBillOnDemandCreate",
+        "summary": "Create a customer bill on demand",
+        "description": "This operation creates a customer bill on demand entity.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "CustomerBillOnDemand",
+            "required": true,
+            "in": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CustomerBillOnDemandRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerBillOnDemand"
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+           "CustomerBillOnDemand"
+        ],        
+        "operationId": "customerBillOnDemandFind",
+        "summary": "Retrieve customer bill on demand with filter criteria",
+        "description": "This operation list customer bill on demand entities.\nAttribute selection is enabled for all first level attributes.\nFiltering may be available depending on the compliance level supported by an implementation.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Attribute selection",
+            
+              "type": "string"
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Requested index for start of resources to be provided in response requested by client",
+            
+              "type": "integer",
+              "format": "int32"
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Requested number of resources to be provided in response requested by client",
+            
+              "type": "integer",
+              "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+              "$ref": "#/definitions/CustomerBillOnDemand"
+              }
+            },
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of items matching criteria",
+              "type": "integer",
+              "format": "int32"
+              },
+              "X-Result-Count": {
+                "description": "Actual number of items returned in the response body",
+              "type": "integer",
+              "format": "int32"
+              }
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+      "/customerBillOnDemand/{id}": {
+      "get": {
+        "tags": [
+           "CustomerBillOnDemand"
+        ],        
+        "operationId": "customerBillOnDemandGet",
+        "summary": "Retrieve a customer bill on demand with its id",
+        "description": "This operation retrieves a customer bill on demand entity.\nAttribute selection is enabled for all first level attributes.\nFiltering on sub-resources may be available depending on the compliance level supported by an implementation.\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Attribute selection",
+            
+              "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerBillOnDemand"
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+      "/hub": {
+      "post": {
+        "tags": [
+           "Hub"
+        ],        
+        "operationId": "hubCreate",
+        "summary": "Register a listener",
+        "description": "Sets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "Hub",
+            "required": true,
+            "in": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/HubInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Hub"
+            }
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+      "/hub/{hubId}": {
+      "delete": {
+        "tags": [
+           "Hub"
+        ],        
+        "operationId": "hubDelete",
+        "summary": "Unregister a listener",
+        "description": "Clears the communication endpoint address that was set by creating the Hub\n\nSpecific business errors for current operation will be encapsulated in\n\nHTTP Response 422 Unprocessable entity\n",
+        "deprecated": false,
+        
+        "parameters": [
+          
+          {
+            "name": "hubId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+
+          },
+          "400": {
+            
+            "description": "Bad Request\n\nList of supported error codes:\n- 20: Invalid URL parameter value\n- 21: Missing body\n- 22: Invalid body\n- 23: Missing body field\n- 24: Invalid body field\n- 25: Missing header\n- 26: Invalid header value\n- 27: Missing query-string parameter\n- 28: Invalid query-string parameter value",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "404": {
+            
+            "description": "Not Found\n\nList of supported error codes:\n- 60: Resource not found",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "405": {
+            
+            "description": "Method Not Allowed\n\nList of supported error codes:\n- 61: Method not allowed",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "422": {
+            
+            "description": "Unprocessable entity\n\nFunctional error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          },
+          "500": {
+            
+            "description": "Internal Server Error\n\nList of supported error codes:\n- 1: Internal error",
+            "schema": {
+            
+              "$ref": "#/definitions/ErrorRepresentation"
+            }
+          }
+        }
+      }
+    }
+  },
+"definitions": {
+  
+    "stateValue": {
+      "description": "",
+      
+      "type": "string",
+      "enum": [
+        "new",
+        "onHold",
+        "validated",
+        "sent",
+        "partiallyPaid",
+        "settled"
+      ]
+	  
+    },
+    "StateValues": {
+      "description": "",
+      
+      "type": "string",
+      "enum": [
+  	          "inProgress",
+  	          "rejected",
+  	          "done",
+  	          "terminatedWithError"]
+      
+    },
+
+    "ErrorRepresentation": {
+      "description": "Standard tmf error representation",
+
+      
+      "required": [
+          
+            "code",
+            "message"
+      ],
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Application related code (as defined in the API or from a common list)",
+              "type": "integer",
+              "format": "int32"
+        },
+        "reason": {
+          "description": "Text that explains the reason for error. This can be shown to a client user.",
+              "type": "string"
+        },
+        "message": {
+          "description": "Text that provides more details and corrective actions related to the error. This can be shown to a client user.",
+              "type": "string"
+        },
+        "status": {
+          "description": "http error code extension like 400-2",
+              "type": "string"
+        },
+        "referenceError": {
+          "description": "url pointing to documentation describing the error",
+              "type": "string"
+        },
+        "@type": {
+          "description": "Indicates the type of resource",
+              "type": "string"
+        },
+        "@schemaLocation": {
+          "description": "Link to schema describing this REST resource",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "CustomerBill": {
+      "description": "The billing account receives all charges (recurring, one time and usage) of the offers and products assigned to it during order process. Periodically according to billing cycle specifications attached to the billing account or as a result of an event, a customer bill (aka invoice) is produced. This customer bill concerns different related parties which play a role on it : for example, a customer bill is produced by an operator, is sent to a bill receiver and has to be paid by a payer.\nA payment method could be assigned to the customer bill to build the call of payment. Lettering process enables to assign automatically or manually incoming amount from payments to customer bills (payment items).\nA tax item is created for each tax rate used in the customer bill.\nThe financial account represents a financial entity which records all customer’s accounting events : payment amount are recorded as credit and invoices amount are recorded as debit. It gives the customer overall balance (account balance).\nThe customer bill is linked to one or more documents that can be downloaded via a provided url.",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of he bill",
+              "type": "string"
+        },
+        "href": {
+          "description": "Bill unique reference",
+              "type": "string"
+        },
+        "billNo": {
+          "description": "Bill reference known by the customer or the party and displayed on the bill. Could be different from the id",
+              "type": "string"
+        },
+        "runType": {
+          "description": "onCycle (a bill can be created as a result of a cycle run) or offCycle (a bill can be created as a result of other events such as customer request or account close)",
+              "type": "string"
+        },
+        "category": {
+          "description": "Category of the bill produced : normal, duplicate, interim, last, trial customer or credit note for example",
+              "type": "string"
+        },
+        "state": {
+          
+           "$ref": "#/definitions/stateValue"
+        },
+        "lastUpdate": {
+          "description": "Date of bill last update",
+              "type": "string",
+              "format": "date-time"
+        },
+        "billDate": {
+          "description": "Bill date",
+              "type": "string",
+              "format": "date-time"
+        },
+        "nextBillDate": {
+          "description": "). Approximate date of  the next bill production given for information (only used for onCycle bill)",
+              "type": "string",
+              "format": "date-time"
+        },
+        "billingPeriod": {
+          
+              "$ref": "#/definitions/TimePeriod"
+        },
+        "amountDue": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "paymentDueDate": {
+          "description": "Date at which the amount due should have been paid",
+              "type": "string",
+              "format": "date-time"
+        },
+        "remainingAmount": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "taxExcludedAmount": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "taxIncludedAmount": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "@baseType": {
+          "description": "Indicates the base (class) type of the customer bill",
+              "type": "string"
+        },
+        "@type": {
+          "description": "Indicates the (class) type of the customer bill",
+              "type": "string"
+        },
+        "@schemaLocation": {
+          "description": "Link to the schema describing the REST resource",
+              "type": "string"
+        },
+        "billDocument": {
+          
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/Attachment"
+          }
+        },
+        "appliedPayment": {
+          
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/AppliedPayment"
+          }
+        },
+        "billingAccount": {
+          
+              "$ref": "#/definitions/BillingAccountRef"
+        },
+        "taxItem": {
+          
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/TaxItem"
+          }
+        },
+        "paymentMethod": {
+          
+              "$ref": "#/definitions/PaymentMethodRef"
+        },
+        "relatedParty": {
+          
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/RelatedPartyRef"
+          }
+        },
+        "financialAccount": {
+          
+              "$ref": "#/definitions/FinancialAccountRef"
+        }
+      }
+      
+    },
+
+    "TimePeriod": {
+      "description": "A business entity used to represent a period between a start and an end date and time",
+
+      
+      "type": "object",
+      "properties": {
+        "startDateTime": {
+          "description": "Start date and time of the period",
+              "type": "string",
+              "format": "date-time"
+        },
+        "endDateTime": {
+          "description": "End date and time of the period",
+              "type": "string",
+              "format": "date-time"
+        }
+      }
+      
+    },
+
+    "Money": {
+      "description": "A base / value business entity used to represent money",
+
+      
+      "type": "object",
+      "properties": {
+        "unit": {
+          "description": "Currency code (ISO4217 norm uses 3 letters to define the currency).",
+              "type": "string"
+        },
+        "value": {
+          "description": "A positive floating point number",
+              "type": "number",
+              "format": "float"
+        }
+      }
+      
+    },
+
+    "Attachment": {
+      "description": "Attachment refers to extensions or additional parts that is or may be attached to something (agreements, contracts, appointments) to perform a particular function. They can be communication attachments, documents and other.",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the attachment",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the attachment",
+              "type": "string"
+        },
+        "name": {
+          "description": "Name of the attachment",
+              "type": "string"
+        },
+        "description": {
+          "description": "Free short description of the attachment",
+              "type": "string"
+        },
+        "mimeType": {
+          "description": "Mime type of the attachment",
+              "type": "string"
+        },
+        "sizeUnit": {
+          "description": "Size unit (in bytes by default)",
+              "type": "string"
+        },
+        "size": {
+          "description": "The size  in Bytes of the document or attachment",
+              "type": "number",
+              "format": "float"
+        },
+        "url": {
+          "description": "URL of the attachment",
+              "type": "string"
+        },
+        "@type": {
+          "description": "Indicates the type of attachment",
+              "type": "string"
+        },
+        "@schemaLocation": {
+          "description": "Link to the schema describing the REST resource",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "AppliedPayment": {
+      "description": "The applied payment is the result of lettering process. It enables to assign automatically or manually part of incoming payment amount to a bill.",
+
+      
+      "type": "object",
+      "properties": {
+        "appliedAmount": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "payment": {
+          
+              "$ref": "#/definitions/PaymentRef"
+        }
+      }
+      
+    },
+
+    "BillingAccountRef": {
+      "description": "BillingAccount reference. A BillingAccount is a detailed description of a bill structure.",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the billing account",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the billing account",
+              "type": "string"
+        },
+        "name": {
+          "description": "Billing account name",
+              "type": "string"
+        },
+        "@referredType": {
+          "description": "Indicates the type of the billing account",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "TaxItem": {
+      "description": "A tax item is created for each tax rate and tax type used in the bill. The tax item specifies the applied tax rate and the total resulting amount.",
+
+      
+      "type": "object",
+      "properties": {
+        "taxCategory": {
+          "description": "A tax category",
+              "type": "string"
+        },
+        "taxRate": {
+          "description": "Applied rate of the tax",
+              "type": "number",
+              "format": "float"
+        },
+        "taxAmount": {
+          
+              "$ref": "#/definitions/Money"
+        }
+      }
+      
+    },
+
+    "PaymentMethodRef": {
+      "description": "PaymentMethod reference. A payment method defines a specific mean of payment (e.g direct debit).",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the payment method",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the payment method",
+              "type": "string"
+        },
+        "name": {
+          "description": "Name of the payment method",
+              "type": "string"
+        },
+        "@referredType": {
+          "description": "Indicates the type of payment method",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "RelatedPartyRef": {
+      "description": "RelatedParty reference. A related party defines party or party role linked to a specific entity.",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of a related party",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the related party",
+              "type": "string"
+        },
+        "name": {
+          "description": "Related party name",
+              "type": "string"
+        },
+        "role": {
+          "description": "Role played by the related party",
+              "type": "string"
+        },
+        "@referredType": {
+          "description": "Indicates the type of related party",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "FinancialAccountRef": {
+      "description": "Financial account reference. An account of money owed by a party to another entity in exchange for goods or services that have been delivered or used. A finacial account aggregates the amounts of one or more party accounts (billing or settlement) owned by a given party.",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the account",
+              "type": "string"
+        },
+        "href": {
+          "description": "Unique reference of the account",
+              "type": "string"
+        },
+        "name": {
+          "description": "Account name",
+              "type": "string"
+        },
+        "@referredType": {
+          "description": "Indicates the type of the financial account",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "PaymentRef": {
+      "description": "A payment reference",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the payment",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the payment",
+              "type": "string"
+        },
+        "paymentDate": {
+          "description": "Payment date",
+              "type": "string",
+              "format": "date-time"
+        },
+        "amount": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "@referredType": {
+          "description": "Indicates the type of payment",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "CustomerBillUpdate": {
+      "description": "",
+
+      
+      "required": [
+          
+            "state"
+      ],
+      "type": "object",
+      "properties": {
+        "state": {
+          
+           "$ref": "#/definitions/stateValue"
+        }
+      }
+      
+    },
+
+    "AppliedCustomerBillingRate": {
+      "description": "A customer bill displays applied billing rates created before or during the billing process.",
+
+      
+      "required": [
+          
+            "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the customer applied billing rate",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the customer applied billing rate",
+              "type": "string"
+        },
+        "type": {
+          "description": "Type of the applied billing rate : appliedBillingCharge (any kind of charge except taxation charges : recurringCharge, oneTimeCharge, usageCharge),  appliedBillingCredit (any kind of credit : rebate or productAlteration) or appliedPenaltyCharge (penalty charges such as late fees, payment rejection fees,...)",
+              "type": "string"
+        },
+        "date": {
+          "description": "Creation date of the applied billing rate",
+              "type": "string",
+              "format": "date-time"
+        },
+        "name": {
+          "description": "Name of the customer applied billing rate",
+              "type": "string"
+        },
+        "description": {
+          "description": "Additional data to be displayed on the bill for this customer applied billing rate",
+              "type": "string"
+        },
+        "taxExcludedAmount": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "taxIncludedAmount": {
+          
+              "$ref": "#/definitions/Money"
+        },
+        "@baseType": {
+          "description": "Indicates the base (class) type of the applied customer billing rate",
+              "type": "string"
+        },
+        "@type": {
+          "description": "Indicates the (class) type of the applied customer billing rate",
+              "type": "string"
+        },
+        "@schemaLocation": {
+          "description": "Link to the schema describing the REST resource",
+              "type": "string"
+        },
+        "appliedTax": {
+          
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/AppliedBillingTaxRate"
+          }
+        },
+        "bill": {
+          
+              "$ref": "#/definitions/BillRef"
+        },
+        "characteristic": {
+          
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/AppliedBillingRateCharacteristic"
+          }
+        }
+      }
+      
+    },
+
+    "AppliedBillingTaxRate": {
+      "description": "The applied billing tax rate represents taxes applied billing rate it refers to. It is calculated during the billing process.",
+
+      
+      "required": [
+          
+            "taxAmount"
+      ],
+      "type": "object",
+      "properties": {
+        "taxCategory": {
+          "description": "A categorization of the tax rate",
+              "type": "string"
+        },
+        "taxRate": {
+          "description": "Applied rate",
+              "type": "number",
+              "format": "float"
+        },
+        "taxAmount": {
+          
+              "$ref": "#/definitions/Money"
+        }
+      }
+      
+    },
+
+    "BillRef": {
+      "description": "Bill reference",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the bill",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the bill",
+              "type": "string"
+        },
+        "@referredType": {
+          "description": "Indicates the (class) type of the bill",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "AppliedBillingRateCharacteristic": {
+      "description": "An applied billing rate has dynamic characteristics according to the its type (characteristics are based on the service type, line of business or on others parameters)",
+
+      
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Characteristic name",
+              "type": "string"
+        },
+        "value": {
+          "description": "Value affected to the characteristic",
+              "type": "string"
+        },
+        "@type": {
+          "description": "Indicates the (class) type of the characteristic",
+              "type": "string"
+        },
+        "@schemaLocation": {
+          "description": "Link to the schema describing the REST resource",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "CustomerBillOnDemand": {
+      "description": "This resource is used to manage the creation request of a customer bill in real-time (on demand).",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the customer bill on demand request given by the server",
+              "type": "string"
+        },
+        "href": {
+          "description": "Reference of the customer bill on demand request",
+              "type": "string"
+        },
+        "name": {
+          "description": "Friendly name to identify the customer bill on demand request",
+              "type": "string"
+        },
+        "description": {
+          "description": "Additional data describing the customer bill on demand request",
+              "type": "string"
+        },
+        "state": {
+          
+           "$ref": "#/definitions/StateValues"
+        },
+        "lastUpdate": {
+          "description": "The last date time when the customer bill on demand has been updated",
+              "type": "string"
+        },
+        "@type": {
+          "description": "Indicates the (class) type of the customer bill on demand request",
+              "type": "string"
+        },
+        "@schemaLocation": {
+          "description": "Link to the schema describing the REST resource",
+              "type": "string"
+        },
+        "billingAccount": {
+          
+              "$ref": "#/definitions/BillingAccountRef"
+        },
+        "relatedParty": {
+          
+              "$ref": "#/definitions/RelatedPartyRef"
+        },
+        "customerBill": {
+          
+              "$ref": "#/definitions/BillRef"
+        }
+      }
+      
+    },
+
+    "CustomerBillOnDemandRequest": {
+      "description": "",
+
+      
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Friendly name to identify the customer bill on demand request",
+              "type": "string"
+        },
+        "description": {
+          "description": "Additional data describing the customer bill on demand request",
+              "type": "string"
+        },
+        "billingAccount": {
+          
+              "$ref": "#/definitions/BillingAccountRef"
+        },
+        "relatedParty": {
+          
+              "$ref": "#/definitions/RelatedPartyRef"
+        }
+      }
+      
+    },
+
+    "Hub": {
+      "description": "Sets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics",
+
+      
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the hub",
+              "type": "string"
+        },
+        "callback": {
+          "description": "The callback being registered",
+              "type": "string"
+        },
+        "query": {
+          "description": "Additional data to be passed",
+              "type": "string"
+        }
+      }
+      
+    },
+
+    "HubInput": {
+      "description": "Sets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics",
+
+      
+      "type": "object",
+      "properties": {
+        "callback": {
+          "description": "The callback being registered",
+              "type": "string"
+        },
+        "query": {
+          "description": "Additional data to be passed",
+              "type": "string"
+        }
+      }
+      
+    }
+  }
+}
+	
